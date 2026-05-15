@@ -32,14 +32,11 @@ html,body{font-family:system-ui,sans-serif;background:#0a0e1a;color:#e2e8f0;heig
 .kb-m{font-size:.75rem;color:#34d399;font-weight:600}
 .gf{background:#111827;border:2px dashed #475569;border-radius:10px;padding:16px;text-align:center}
 .gf-b{background:#ea4335;color:#fff;border:none;padding:12px;border-radius:10px;width:100%;margin-top:8px;cursor:pointer;font-size:.9rem}
-.st{display:flex;gap:10px;align-items:flex-start;background:#111827;padding:12px;border-radius:10px;margin-bottom:8px;transition:all .2s}
+.st{display:flex;gap:10px;align-items:center;background:#111827;padding:12px;border-radius:10px;margin-bottom:8px;transition:all .2s}
 .st.done{background:#064e3b;border:1px solid #059669}
-.st.done .chk{background:#059669;border-color:#059669}
 .chk{width:24px;height:24px;border-radius:6px;border:2px solid #475569;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .chk.checked{background:#059669;border-color:#059669}
 .chk.checked::after{content:'✓';color:#fff;font-weight:bold;font-size:.8rem}
-.add-note-btn{background:#1e293b;color:#94a3b8;border:1px solid #475569;padding:4px 10px;border-radius:6px;font-size:.75rem;cursor:pointer;margin-left:auto;white-space:nowrap}
-.add-note-btn:hover{background:#334155;color:#e2e8f0}
 .notes-panel{background:#111827;border:1px solid #334155;border-radius:10px;padding:14px;margin-bottom:12px}
 .notes-list{max-height:200px;overflow-y:auto;margin-bottom:10px}
 .note-item{background:#1e293b;padding:8px 12px;border-radius:8px;margin-bottom:6px;font-size:.85rem;border-left:3px solid #60a5fa;display:flex;align-items:flex-start;gap:8px}
@@ -47,7 +44,6 @@ html,body{font-family:system-ui,sans-serif;background:#0a0e1a;color:#e2e8f0;heig
 .note-item.voice{border-left-color:#8b5cf6}
 .note-item.step{border-left-color:#059669}
 .note-item .note-text{flex:1}
-.note-time{font-size:.7rem;color:#64748b;margin-top:2px}
 .del-note{background:none;border:none;color:#64748b;font-size:.8rem;cursor:pointer;padding:0 4px}
 .del-note:hover{color:#ef4444}
 .voice-btn{background:#7c3aed;color:#fff;border:none;padding:12px 16px;border-radius:10px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;gap:8px;width:100%;margin-top:8px}
@@ -110,19 +106,6 @@ html,body{font-family:system-ui,sans-serif;background:#0a0e1a;color:#e2e8f0;heig
 </div>
 
 <div class="card">
-<div class="c-h">Work Notes</div>
-<div class="c-b">
-<div class="notes-list" id="notesList"></div>
-<button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">Record Voice Note</button>
-<textarea class="note-input" id="noteInput" rows="2" placeholder="Type your notes here..."></textarea>
-<div class="submit-bar">
-<button class="btn b2" onclick="addManualNote()">Add Note</button>
-<button class="btn b3" onclick="closeTicket()">Close Ticket</button>
-</div>
-</div>
-</div>
-
-<div class="card">
 <div class="c-h">Similar Tickets</div>
 <div class="c-b">
 <div class="kb"><div class="kb-h">INC0021023</div><div class="kb-d">Outlook crashes on .docx >3MB</div><div class="kb-d">Torres - 2w ago - Resolved</div></div>
@@ -140,18 +123,30 @@ html,body{font-family:system-ui,sans-serif;background:#0a0e1a;color:#e2e8f0;heig
 <div><strong>No perfect KB match?</strong></div>
 <div style="font-size:.85rem;color:#94a3b8;margin:4px 0">Search Google for community solutions</div>
 <button class="gf-b" onclick="window.open('https://google.com/search?q=Outlook+crashing+large+attachments+Windows+11','_blank')">Search Google</button>
-<button class="add-note-btn" onclick="addGoogleNote()" style="margin-top:8px;width:100%">Add Google Search to Notes</button>
 </div>
 </div>
 </div>
 
 <div class="card">
-<div class="c-h">Fix Steps</div>
+<div class="c-h">Fix Steps <span style="font-weight:400;font-size:.85rem;color:#94a3b8;margin-left:8px">(tap checkbox to add to notes)</span></div>
 <div class="c-b" id="fixSteps">
-<div class="st" onclick="toggleStep(this)"><div class="chk"></div><div>Check Outlook updates: File - Office Account - Update</div><button class="add-note-btn" onclick="event.stopPropagation();addStepNote(this)">Add to Notes</button></div>
-<div class="st" onclick="toggleStep(this)"><div class="chk"></div><div>Run Safe Mode: outlook.exe /safe</div><button class="add-note-btn" onclick="event.stopPropagation();addStepNote(this)">Add to Notes</button></div>
-<div class="st" onclick="toggleStep(this)"><div class="chk"></div><div>Disable PDF preview: Trust Center - Attachment Handling</div><button class="add-note-btn" onclick="event.stopPropagation();addStepNote(this)">Add to Notes</button></div>
-<div class="st" onclick="toggleStep(this)"><div class="chk"></div><div>Office Repair: Settings - Apps - Office - Quick Repair</div><button class="add-note-btn" onclick="event.stopPropagation();addStepNote(this)">Add to Notes</button></div>
+<div class="st" data-step="1" onclick="toggleStep(this)"><div class="chk"></div><div>Check Outlook updates: File - Office Account - Update</div></div>
+<div class="st" data-step="2" onclick="toggleStep(this)"><div class="chk"></div><div>Run Safe Mode: outlook.exe /safe</div></div>
+<div class="st" data-step="3" onclick="toggleStep(this)"><div class="chk"></div><div>Disable PDF preview: Trust Center - Attachment Handling</div></div>
+<div class="st" data-step="4" onclick="toggleStep(this)"><div class="chk"></div><div>Office Repair: Settings - Apps - Office - Quick Repair</div></div>
+</div>
+</div>
+
+<div class="card">
+<div class="c-h">Work Notes</div>
+<div class="c-b">
+<div class="notes-list" id="notesList"></div>
+<button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">Record Voice Note</button>
+<textarea class="note-input" id="noteInput" rows="2" placeholder="Type your notes here..."></textarea>
+<div class="submit-bar">
+<button class="btn b2" onclick="addManualNote()">Add Note</button>
+<button class="btn b3" onclick="closeTicket()">Close Ticket</button>
+</div>
 </div>
 </div>
 
@@ -180,7 +175,7 @@ let recognition;
 function renderNotes(){
 const list=document.getElementById('notesList');
 if(notes.length===0){
-list.innerHTML='<div style="color:#64748b;font-size:.85rem;text-align:center;padding:8px">No work notes yet. Check a fix step or add a note.</div>';
+list.innerHTML='<div style="color:#64748b;font-size:.85rem;text-align:center;padding:8px">No work notes yet. Check a fix step above or add a note.</div>';
 return;
 }
 list.innerHTML=notes.map((note,i)=>`
@@ -202,17 +197,20 @@ renderNotes();
 }
 
 function toggleStep(el){
-el.classList.toggle('done');
-el.querySelector('.chk').classList.toggle('checked');
-}
+const chk=el.querySelector('.chk');
+const stepText=el.querySelector('div:last-child').innerText;
 
-function addStepNote(btn){
-const stepText=btn.previousElementSibling.innerText;
-addNote(stepText,'step');
-}
+chk.classList.toggle('checked');
 
-function addGoogleNote(){
-addNote('Resolved via Google search: Outlook crashing large attachments Windows 11','google');
+if(chk.classList.contains('checked')){
+el.classList.add('done');
+addNote('Completed: '+stepText,'step');
+}else{
+el.classList.remove('done');
+const noteIndex=notes.findIndex(n=>n.type==='step'&&n.text==='Completed: '+stepText);
+if(noteIndex>-1)notes.splice(noteIndex,1);
+renderNotes();
+}
 }
 
 function addManualNote(){
