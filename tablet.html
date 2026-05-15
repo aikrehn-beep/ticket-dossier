@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ticket Dossier — Tablet View</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        html, body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #0a0e1a;
+            color: #e2e8f0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 64px;
+            background: #111827;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 100;
+        }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .logo { font-size: 1.3rem; font-weight: 700; color: #60a5fa; }
+        .ticket-id {
+            background: #d97706;
+            color: white;
+            padding: 4px 14px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .status-pill {
+            padding: 4px 14px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .status-open { background: #f59e0b; color: #1a1a00; }
+        .status-resolved { background: #10b981; color: white; }
+        .header-right { display: flex; gap: 8px; }
+
+        /* ========== SCROLL AREA ========== */
+        .scroll-container {
+            position: fixed;
+            top: 64px; left: 0; right: 0; bottom: 72px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 16px;
+        }
+
+        /* ========== SECTIONS ========== */
+        .section {
+            background: #1e293b;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .section-header {
+            padding: 14px 18px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #111827;
+            border-bottom: 1px solid #334155;
+        }
+        .section-body { padding: 16px; }
+
+        /* ========== CUSTOMER CARD ========== */
+        .customer-grid {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 16px;
+            align-items: center;
+        }
+        .avatar {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+        }
+        .customer-name { font-size: 1.2rem; font-weight: 600; }
+        .customer-title { color: #94a3b8; font-size: 0.95rem; }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .info-item {
+            background: #111827;
+            padding: 12px;
+            border-radius: 12px;
+        }
+        .info-label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+        .info-value { font-size: 1rem; font-weight: 500; margin-top: 4px; }
+
+        /* ========== TICKET INFO ========== */
+        .ticket-desc {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            padding: 12px;
+            background: #111827;
+            border-radius: 12px;
+            border-left: 4px solid #60a5fa;
+        }
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border: none;
+            color: white;
+            min-height: 52px;
+        }
+        .btn-primary { background: #2563eb; }
+        .btn-secondary { background: #374151; }
+        .btn-success { background: #059669; }
+        .btn-danger { background: #dc2626; }
+
+        /* ========== KB ARTICLES ========== */
+        .kb-list { display: flex; flex-direction: column; gap: 10px; }
+        .kb-card {
+            background: #111827;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .kb-icon {
+            width: 44px; height: 44px;
+            border-radius: 10px;
+            background: #064e3b;
+            color: #34d399;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        .kb-title { font-weight: 600; font-size: 0.95rem; }
+        .kb-desc { font-size: 0.85rem; color: #94a3b8; margin-top: 4px; }
+        .kb-match { font-size: 0.8rem; color: #34d399; font-weight: 600; }
+
+        /* ========== GOOGLE FALLBACK ========== */
+        .google-fallback {
+            background: #111827;
+            border: 2px dashed #475569;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .google-fallback .icon { font-size: 2rem; margin-bottom: 8px; }
+        .google-fallback p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 12px; }
+        .google-btn {
+            background: #ea4335;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            width: 100%;
+            min-height: 52px;
+        }
+
+        /* ========== STEPS ========== */
+        .step-list { display: flex; flex-direction: column; gap: 12px; }
+        .step {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            background: #111827;
+            padding: 14px;
+            border-radius: 12px;
+        }
+        .step-check {
+            width: 28px; height: 28px;
+            border-radius: 8px;
+            border: 2px solid #475569;
+            background: #1e293b;
+            flex-shrink: 0;
+            margin-top: 2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step-check.checked { background: #059669; border-color: #059669; }
+        .step-check.checked::after { content: '✓'; color: white; font-weight: bold; }
+        .step-text { font-size: 1rem; line-height: 1.5; padding-top: 2px; }
+
+        /* ========== SIMILAR TICKETS ========== */
+        .ticket-card {
+            background: #111827;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+        .ticket-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .ticket-card-id { color: #60a5fa; font-weight: 600; }
+        .ticket-card-meta { font-size: 0.8rem; color: #64748b; margin-top: 4px; }
+
+        /* ========== BOTTOM NAV ========== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 72px;
+            background: #111827;
+            border-top: 1px solid #1e293b;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            background: none;
+            border: none;
+            color: #64748b;
+            font-size: 0.75rem;
+        }
+        .nav-btn .icon { font-size: 1.5rem; }
+        .nav-btn.active { color: #60a5fa; }
+
+        /* ========== RESPONSIVE ========== */
+        @media (min-width: 768px) and (orientation: landscape) {
+            .scroll-container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+            .section { margin-bottom: 0; }
+            .info-grid { grid-template-columns: 1fr 1fr 1fr; }
+            .quick-actions { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <span class="logo">⚔️ Dossier</span>
+            <span class="ticket-id">INC0021847</span>
+            <span class="status-pill status-open">In Progress</span>
+        </div>
+        <div class="header-right">
+            <span style="color:#fbbf24; font-weight:600; font-size:0.9rem;">⏱️ 2h 14m</span>
+        </div>
+    </header>
+
+    <!-- SCROLL CONTENT -->
+    <div class="scroll-container">
+
+        <!-- CUSTOMER SECTION -->
+        <div class="section">
+            <div class="section-header">👤 Customer</div>
+            <div class="section-body">
+                <div class="customer-grid">
+                    <div class="avatar">👩‍💼</div>
+                    <div>
+                        <div class="customer-name">Sarah Mitchell</div>
+                        <div class="customer-title">Senior Associate — Litigation</div>
+                    </div>
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Office</div>
+                        <div class="info-value">14th Floor, 1423</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Phone</div>
+                        <div class="info-value">(205) 555-0142</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Device</div>
+                        <div class="info-value">Dell Latitude 7350</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Source</div>
+                        <div class="info-value" style="font-size:0.85rem;">SharePoint Directory</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TICKET SECTION -->
+        <div class="section">
+            <div class="section-header">📝 Ticket Details</div>
+            <div class="section-body">
+                <div class="ticket-desc">
+                    Outlook constantly crashing when opening large attachments over 5MB. Started after Windows update yesterday. Need to review deposition file urgently.
+                </div>
+                <div class="info-grid" style="margin-top:12px;">
+                    <div class="info-item">
+                        <div class="info-label">Priority</div>
+                        <div class="info-value" style="color:#f87171;">2 — High</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Category</div>
+                        <div class="info-value">Software / Office 365</div>
+                    </div>
+                </div>
+                <div class="quick-actions">
+                    <button class="action-btn btn-primary">🖥️ Remote</button>
+                    <button class="action-btn btn-secondary">💬 Teams</button>
+                    <button class="action-btn btn-success">✅ Resolve</button>
+                    <button class="action-btn btn-danger">⬆️ Escalate</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIMILAR TICKETS -->
+        <div class="section">
+            <div class="section-header">🔍 Similar Tickets</div>
+            <div class="section-body">
+                <div class="ticket-card">
+                    <div class="ticket-card-header">
+                        <span class="ticket-card-id">INC0021023</span>
+                        <span class="status-pill status-resolved">Resolved</span>
+                    </div>
+                    <div>Outlook crashes when opening .docx attachments > 3MB</div>
+                    <div class="ticket-card-meta">Michael Torres • 2 weeks ago • Same floor</div>
+                </div>
+                <div class="ticket-card">
+                    <div class="ticket-card-header">
+                        <span class="ticket-card-id">INC0020891</span>
+                        <span class="status-pill status-resolved">Resolved</span>
+                    </div>
+                    <div>Outlook hangs after Windows 11 23H2 update</div>
+                    <div class="ticket-card-meta">Jennifer Walsh • 3 weeks ago • Litigation</div>
+                </div>
+                <div class="ticket-card">
+                    <div class="ticket-card-header">
+                        <span class="ticket-card-id">INC0021765</span>
+                        <span class="status-pill status-open">Open</span>
+                    </div>
+                    <div>PDF attachments won't preview in Outlook</div>
+                    <div class="ticket-card-meta">David Chen • Yesterday • 12th Floor</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KB ARTICLES -->
+        <div class="section">
+            <div class="section-header">📚 Knowledge Base</div>
+            <div class="section-body">
+                <div class="kb-list">
+                    <div class="kb-card">
+                        <div class="kb-icon">📄</div>
+                        <div>
+                            <div class="kb-title">KB0042: Outlook Crashes After Windows Updates</div>
+                            <div class="kb-desc">Common fixes for Office applications breaking after Windows patching cycles.</div>
+                            <div class="kb-match">97% match</div>
+                        </div>
+                    </div>
+                    <div class="kb-card">
+                        <div class="kb-icon">📄</div>
+                        <div>
+                            <div class="kb-title">KB0156: Large Attachment Handling in Outlook</div>
+                            <div class="kb-desc">Recommended attachment size limits and troubleshooting preview issues.</div>
+                            <div class="kb-match">91% match</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GOOGLE FALLBACK -->
+                <div class="google-fallback" style="margin-top:16px;">
+                    <div class="icon">🌐</div>
+                    <p><strong>No perfect KB match?</strong><br>Search Google for community solutions and Microsoft documentation.</p>
+                    <button class="google-btn" onclick="window.open('https://www.google.com/search?q=Outlook+crashing+large+attachments+Windows+11+fix', '_blank')">
+                        🔍 Search Google for Fixes
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FIX STEPS -->
+        <div class="section">
+            <div class="section-header">✅ Fix Steps</div>
+            <div class="section-body">
+                <div class="step-list">
+                    <div class="step">
+                        <div class="step-check" onclick="this.classList.toggle('checked')"></div>
+                        <div class="step-text">Check Outlook is fully updated (File → Office Account → Update Options)</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-check" onclick="this.classList.toggle('checked')"></div>
+                        <div class="step-text">Run Outlook in Safe Mode: <code>outlook.exe /safe</code> and test opening attachments</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-check" onclick="this.classList.toggle('checked')"></div>
+                        <div class="step-text">Disable PDF preview handler: File → Options → Trust Center → Attachment Handling → Uncheck "Turn off Attachment Preview"</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-check" onclick="this.classList.toggle('checked')"></div>
+                        <div class="step-text">Run Office Repair: Settings → Apps → Microsoft Office → Modify → Quick Repair</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-check" onclick="this.classList.toggle('checked')"></div>
+                        <div class="step-text">If still failing, escalate to L2 with Safe Mode test results</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CUSTOMER HISTORY -->
+        <div class="section">
+            <div class="section-header">📋 Customer History</div>
+            <div class="section-body">
+                <div class="ticket-card">
+                    <div class="ticket-card-header">
+                        <span class="ticket-card-id">INC0019876</span>
+                        <span class="status-pill status-resolved">Resolved</span>
+                    </div>
+                    <div>VPN connection issues</div>
+                    <div class="ticket-card-meta">Apr 28, 2026 — Reset credentials</div>
+                </div>
+                <div class="ticket-card">
+                    <div class="ticket-card-header">
+                        <span class="ticket-card-id">INC0018452</span>
+                        <span class="status-pill status-resolved">Resolved</span>
+                    </div>
+                    <div>Teams audio not working</div>
+                    <div class="ticket-card-meta">Mar 15, 2026 — Driver update</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <button class="nav-btn active">
+            <span class="icon">📋</span>
+            <span>Dossier</span>
+        </button>
+        <button class="nav-btn">
+            <span class="icon">🔍</span>
+            <span>Search</span>
+        </button>
+        <button class="nav-btn">
+            <span class="icon">⚙️</span>
+            <span>Tools</span>
+        </button>
+        <button class="nav-btn">
+            <span class="icon">👤</span>
+            <span>Profile</span>
+        </button>
+    </nav>
+
+</body>
+</html>
