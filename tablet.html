@@ -64,6 +64,19 @@
             border-radius: 16px;
             margin-bottom: 16px;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .section-body {
+            padding: 16px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            max-height: 60vh;
+        }
+        .section-body {
+            padding: 16px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         .section-header {
             padding: 14px 18px;
@@ -75,7 +88,7 @@
             background: #111827;
             border-bottom: 1px solid #334155;
         }
-        .section-body { padding: 16px; }
+        /* moved into .section-body rule above */
 
         /* ========== CUSTOMER CARD ========== */
         .customer-grid {
