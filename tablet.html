@@ -135,7 +135,8 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 <div class="info-b"><div class="info-l">Office</div><div class="info-v">14th Floor, 1423</div></div>
 <div class="info-b"><div class="info-l">Phone</div><div class="info-v">(205) 555-0142</div></div>
 <div class="info-b"><div class="info-l">Device</div><div class="info-v">Dell Latitude 7350</div></div>
-<div class="info-b"><div class="info-l">Email</div><div class="info-v" style="font-size:.8rem">sarah.mitchell@bradley.com</div></div>
+<div class="info-b"><div class="info-l">Status</div><div class="info-v" style="color:#4caf50">🟢 Online</div></div>
+<div class="info-b"><div class="info-l">Last Login</div><div class="info-v">Today 8:32 AM</div></div>
 </div>
 </div>
 </div>
@@ -150,6 +151,7 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 <div class="info-b"><div class="info-l">Category</div><div class="info-v">Software / Office 365</div></div>
 </div>
 <div class="btns">
+<button class="btn b1" onclick="window.open('mailto:sarah.mitchell@bradley.com?subject=Re:%20Ticket%20INC0021847','_blank')">📧 Email Customer</button>
 <button class="btn b3">Resolve</button>
 <button class="btn b4">Escalate</button>
 </div>
@@ -201,6 +203,10 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 <div class="submit-bar">
 <button class="btn b2" onclick="addManualNote()">Add Note</button>
 <button class="btn b3" onclick="closeTicket()">Close Ticket</button>
+</div>
+<div style="margin-top:12px;display:flex;align-items:center;gap:8px">
+<input type="checkbox" id="createKB" style="width:20px;height:20px;cursor:pointer">
+<label for="createKB" style="color:#94a3b8;font-size:.9rem;cursor:pointer">Create KB Article from this resolution</label>
 </div>
 </div>
 </div>
@@ -327,7 +333,9 @@ function closeTicket(){
 if(notes.length===0){
 if(!confirm('No work notes added. Close ticket anyway?'))return;
 }
-alert('Ticket INC0021847 resolved!\n\nWork notes:\n'+notes.map(n=>'• '+n.text).join('\n'));
+var createKB=document.getElementById('createKB').checked;
+var kbMsg=createKB?'\n\n✅ KB Article will be created from this resolution.':'\n\n⬜ KB Article not created.';
+alert('Ticket INC0021847 resolved!\n\nWork notes:\n'+notes.map(n=>'• '+n.text).join('\n')+kbMsg);
 }
 
 renderNotes();
