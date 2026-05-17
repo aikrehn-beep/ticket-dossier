@@ -188,7 +188,7 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 <div class="gf">
 <div><strong>No perfect KB match?</strong></div>
 <div style="font-size:.85rem;color:#94a3b8;margin:6px 0">Search Google for community solutions</div>
-<button class="gf-b" onclick="window.open('https://gemini.google.com/app?q=Outlook+crashing+large+attachments+Windows+11','_blank')">Search Google AI</button>
+<button class="gf-b" onclick="searchGoogleAI()">Search Google AI</button>
 </div>
 </div>
 </div>
@@ -360,6 +360,20 @@ alert('Ticket INC0021847 reassigned to: '+assignee);
 
 function saveTicket(){
 alert('Ticket INC0021847 saved!\n\nAssigned to: '+document.getElementById('assignedTo').value);
+}
+
+function searchGoogleAI(){
+var ticketDesc='Outlook crashing when opening large attachments over 5MB. Started after Windows update yesterday.';
+var attemptedSteps=[];
+document.querySelectorAll('.st.done').forEach(function(step){
+attemptedSteps.push(step.querySelector('div:last-child').innerText);
+});
+var query='Outlook crashing large attachments Windows 11 after update';
+if(attemptedSteps.length>0){
+query+='. Already tried: '+attemptedSteps.join(', ');
+}
+var geminiUrl='https://gemini.google.com/app?q='+encodeURIComponent(query);
+window.open(geminiUrl,'_blank');
 }
 
 renderNotes();
