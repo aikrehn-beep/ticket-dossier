@@ -161,7 +161,18 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 <div class="info-b"><div class="info-l">Category</div><div class="info-v">Software / Office 365</div></div>
 </div>
 <div class="info" style="margin-top:10px">
-<div class="info-b"><div class="info-l">Assignment Group</div><div class="info-v">IT - Desktop Support</div></div>
+<div class="info-b"><div class="info-l">Assignment Group</div><div class="info-v">
+<select id="assignmentGroup" onchange="updateAssignmentGroup()" style="background:#1e293b;color:#e2e8f0;border:1px solid #475569;padding:6px;border-radius:4px;font-size:.9rem;width:100%">
+<option value="IT - Desktop Support" selected>IT - Desktop Support</option>
+<option value="IT - Network Operations">IT - Network Operations</option>
+<option value="IT - Security">IT - Security</option>
+<option value="IT - Server Infrastructure">IT - Server Infrastructure</option>
+<option value="IT - Application Support">IT - Application Support</option>
+<option value="IT - Service Desk">IT - Service Desk</option>
+<option value="Facilities">Facilities</option>
+<option value="HR - IT">HR - IT</option>
+</select>
+</div></div>
 <div class="info-b"><div class="info-l">Assigned To</div><div class="info-v">
 <select id="assignedTo" onchange="updateAssignment()" style="background:#1e293b;color:#e2e8f0;border:1px solid #475569;padding:6px;border-radius:4px;font-size:.9rem;width:100%">
 <option value="Joshua Alldredge" selected>Joshua Alldredge</option>
@@ -370,6 +381,11 @@ alert('Ticket INC0021847 escalated to L2 support team.');
 }else{
 alert('Ticket INC0021847 reassigned to: '+assignee);
 }
+}
+
+function updateAssignmentGroup(){
+var group=document.getElementById('assignmentGroup').value;
+alert('Ticket INC0021847 reassigned to group: '+group);
 }
 
 function toggleHistory(){
