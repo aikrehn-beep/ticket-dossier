@@ -84,7 +84,7 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 .submit-bar .btn{flex:1;padding:16px;font-size:1rem}
 
 /* Note Input */
-.note-input{display:none;background:#1e293b;border:2px solid #475569;padding:12px;color:#e2e8f0;font-size:.9rem;width:100%;margin-top:10px;font-family:inherit}
+.note-input{display:block;background:#1e293b;border:2px solid #475569;padding:12px;color:#e2e8f0;font-size:.9rem;width:100%;margin-top:10px;font-family:inherit}
 .note-input:focus{outline:none;border-color:#60a5fa}
 .show-input{display:block}
 
@@ -197,7 +197,7 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 <div class="c-b">
 <div class="notes-list" id="notesList"></div>
 <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤 Record Voice Note</button>
-<textarea class="note-input" id="noteInput" rows="2" placeholder="Type your notes here..."></textarea>
+<textarea class="note-input" id="noteInput" rows="3" placeholder="Type your notes here..."></textarea>
 <div class="submit-bar">
 <button class="btn b2" onclick="addManualNote()">Add Note</button>
 <button class="btn b3" onclick="closeTicket()">Close Ticket</button>
