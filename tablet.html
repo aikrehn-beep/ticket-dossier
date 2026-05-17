@@ -217,6 +217,14 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 <div class="notes-list" id="notesList"></div>
 <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤 Record Voice Note</button>
 <textarea class="note-input" id="noteInput" rows="3" placeholder="Type your notes here..."></textarea>
+<div id="aiSuggestion" style="display:none;margin-top:12px;background:#1e293b;border:1px solid #60a5fa;padding:12px;border-radius:8px">
+<div style="color:#60a5fa;font-weight:700;font-size:.9rem;margin-bottom:8px">🤖 AI Suggestion from Google</div>
+<div id="aiText" style="color:#e2e8f0;font-size:.9rem;line-height:1.5"></div>
+<div style="margin-top:10px;display:flex;gap:8px">
+<button class="btn b3" onclick="addAISuggestion()" style="flex:1;padding:10px;font-size:.85rem">✅ Add to Work Notes</button>
+<button class="btn b2" onclick="dismissAI()" style="flex:1;padding:10px;font-size:.85rem">❌ Dismiss</button>
+</div>
+</div>
 <div class="submit-bar">
 <button class="btn b2" onclick="addManualNote()">Add Note</button>
 <button class="btn b3" onclick="closeTicket()">Close Ticket</button>
@@ -411,8 +419,22 @@ var query='Outlook crashing large attachments Windows 11 after update';
 if(attemptedSteps.length>0){
 query+='. Already tried: '+attemptedSteps.join(', ');
 }
-var geminiUrl='https://gemini.google.com/app?q='+encodeURIComponent(query);
-window.open(geminiUrl,'_blank');
+// Show AI suggestion panel with sample response (in real app, this would come from API)
+var aiPanel=document.getElementById('aiSuggestion');
+var aiText=document.getElementById('aiText');
+aiText.innerHTML='<strong>Suggested Fix:</strong><br>1. Run Office Quick Repair (Settings > Apps > Office > Modify > Quick Repair)<br>2. If that fails, try Online Repair<br>3. Check for corrupted .pst/.ost files with SCANPST.EXE<br><br><strong>Root Cause:</strong> Likely corrupted Office cache from recent Windows update.';
+aiPanel.style.display='block';
+window.scrollTo(0,document.body.scrollHeight);
+}
+
+function addAISuggestion(){
+var aiText=document.getElementById('aiText').innerText;
+addNote('AI Suggestion: '+aiText,'manual');
+document.getElementById('aiSuggestion').style.display='none';
+}
+
+function dismissAI(){
+document.getElementById('aiSuggestion').style.display='none';
 }
 
 renderNotes();
