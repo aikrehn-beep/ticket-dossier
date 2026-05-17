@@ -189,6 +189,24 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 </div>
 </div>
 
+<!-- Work Notes -->
+<div class="card">
+<div class="c-h">Work Notes</div>
+<div class="c-b">
+<div class="notes-list" id="notesList"></div>
+<button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤 Record Voice Note</button>
+<textarea class="note-input" id="noteInput" rows="3" placeholder="Type your notes here..."></textarea>
+<div class="submit-bar">
+<button class="btn b2" onclick="addManualNote()">Add Note</button>
+<button class="btn b3" onclick="closeTicket()">Close Ticket</button>
+</div>
+<div style="margin-top:12px;display:flex;align-items:center;gap:8px">
+<input type="checkbox" id="createKB" style="width:20px;height:20px;cursor:pointer">
+<label for="createKB" style="color:#94a3b8;font-size:.9rem;cursor:pointer">Create KB Article from this resolution</label>
+</div>
+</div>
+</div>
+
 <!-- Similar Tickets -->
 <div class="card">
 <div class="c-h">Similar Tickets</div>
@@ -205,24 +223,6 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 <div class="c-b">
 <div class="kb"><div class="kb-h">KB0042: Outlook Crashes After Updates</div><div class="kb-d">Common fixes after Windows patching cycles</div><div class="kb-m">97% match</div></div>
 <div class="kb"><div class="kb-h">KB0156: Large Attachment Handling</div><div class="kb-d">Recommended limits and preview troubleshooting</div><div class="kb-m">91% match</div></div>
-</div>
-</div>
-
-<!-- Work Notes -->
-<div class="card">
-<div class="c-h">Work Notes</div>
-<div class="c-b">
-<div class="notes-list" id="notesList"></div>
-<button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤 Record Voice Note</button>
-<textarea class="note-input" id="noteInput" rows="3" placeholder="Type your notes here..."></textarea>
-<div class="submit-bar">
-<button class="btn b2" onclick="addManualNote()">Add Note</button>
-<button class="btn b3" onclick="closeTicket()">Close Ticket</button>
-</div>
-<div style="margin-top:12px;display:flex;align-items:center;gap:8px">
-<input type="checkbox" id="createKB" style="width:20px;height:20px;cursor:pointer">
-<label for="createKB" style="color:#94a3b8;font-size:.9rem;cursor:pointer">Create KB Article from this resolution</label>
-</div>
 </div>
 </div>
 
