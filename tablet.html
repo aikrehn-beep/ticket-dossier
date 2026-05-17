@@ -150,10 +150,21 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 <div class="info-b"><div class="info-l">Priority</div><div class="info-v" style="color:#f87171">2 - High</div></div>
 <div class="info-b"><div class="info-l">Category</div><div class="info-v">Software / Office 365</div></div>
 </div>
+<div class="info" style="margin-top:10px">
+<div class="info-b"><div class="info-l">Assignment Group</div><div class="info-v">IT - Desktop Support</div></div>
+<div class="info-b"><div class="info-l">Assigned To</div><div class="info-v">
+<select id="assignedTo" onchange="updateAssignment()" style="background:#1e293b;color:#e2e8f0;border:1px solid #475569;padding:6px;border-radius:4px;font-size:.9rem;width:100%">
+<option value="Joshua Alldredge" selected>Joshua Alldredge</option>
+<option value="Brandon Torres">Brandon Torres</option>
+<option value="Mike Chen">Mike Chen</option>
+<option value="Sarah Walsh">Sarah Walsh</option>
+<option value="Escalate - L2">Escalate to L2 →</option>
+</select>
+</div></div>
+</div>
 <div class="btns">
 <button class="btn b1" onclick="window.open('mailto:sarah.mitchell@bradley.com?subject=Re:%20Ticket%20INC0021847','_blank')">📧 Email Customer</button>
-<button class="btn b3">Resolve</button>
-<button class="btn b4">Escalate</button>
+<button class="btn b4" onclick="saveTicket()">💾 Save</button>
 </div>
 </div>
 </div>
@@ -336,6 +347,19 @@ if(!confirm('No work notes added. Close ticket anyway?'))return;
 var createKB=document.getElementById('createKB').checked;
 var kbMsg=createKB?'\n\n✅ KB Article will be created from this resolution.':'\n\n⬜ KB Article not created.';
 alert('Ticket INC0021847 resolved!\n\nWork notes:\n'+notes.map(n=>'• '+n.text).join('\n')+kbMsg);
+}
+
+function updateAssignment(){
+var assignee=document.getElementById('assignedTo').value;
+if(assignee==='Escalate - L2'){
+alert('Ticket INC0021847 escalated to L2 support team.');
+}else{
+alert('Ticket INC0021847 reassigned to: '+assignee);
+}
+}
+
+function saveTicket(){
+alert('Ticket INC0021847 saved!\n\nAssigned to: '+document.getElementById('assignedTo').value);
 }
 
 renderNotes();
