@@ -169,6 +169,26 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 </div>
 </div>
 
+<!-- Fix Steps -->
+<div class="card">
+<div class="c-h">Fix Steps <span style="font-weight:400;font-size:.85rem;color:#94a3b8;margin-left:8px">(tap checkbox to add to notes)</span></div>
+<div class="c-b" id="fixSteps">
+<div class="st" data-step="1" onclick="toggleStep(this)"><div class="chk"></div><div>Check Outlook updates: File - Office Account - Update</div></div>
+<div class="st" data-step="2" onclick="toggleStep(this)"><div class="chk"></div><div>Run Safe Mode: outlook.exe /safe</div></div>
+<div class="st" data-step="3" onclick="toggleStep(this)"><div class="chk"></div><div>Disable PDF preview: Trust Center - Attachment Handling</div></div>
+<div class="st" data-step="4" onclick="toggleStep(this)"><div class="chk"></div><div>Office Repair: Settings - Apps - Office - Quick Repair</div></div>
+</div>
+</div>
+
+<!-- Search Google AI -->
+<div class="card">
+<div class="c-h">Need More Help?</div>
+<div class="c-b">
+<div style="font-size:.9rem;color:#94a3b8;margin-bottom:12px">Search Google AI with ticket context and attempted fixes</div>
+<button class="gf-b" onclick="searchGoogleAI()">🔍 Search Google AI</button>
+</div>
+</div>
+
 <!-- Similar Tickets -->
 <div class="card">
 <div class="c-h">Similar Tickets</div>
@@ -185,22 +205,6 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 <div class="c-b">
 <div class="kb"><div class="kb-h">KB0042: Outlook Crashes After Updates</div><div class="kb-d">Common fixes after Windows patching cycles</div><div class="kb-m">97% match</div></div>
 <div class="kb"><div class="kb-h">KB0156: Large Attachment Handling</div><div class="kb-d">Recommended limits and preview troubleshooting</div><div class="kb-m">91% match</div></div>
-<div class="gf">
-<div><strong>No perfect KB match?</strong></div>
-<div style="font-size:.85rem;color:#94a3b8;margin:6px 0">Search Google for community solutions</div>
-<button class="gf-b" onclick="searchGoogleAI()">Search Google AI</button>
-</div>
-</div>
-</div>
-
-<!-- Fix Steps -->
-<div class="card">
-<div class="c-h">Fix Steps <span style="font-weight:400;font-size:.85rem;color:#94a3b8;margin-left:8px">(tap checkbox to add to notes)</span></div>
-<div class="c-b" id="fixSteps">
-<div class="st" data-step="1" onclick="toggleStep(this)"><div class="chk"></div><div>Check Outlook updates: File - Office Account - Update</div></div>
-<div class="st" data-step="2" onclick="toggleStep(this)"><div class="chk"></div><div>Run Safe Mode: outlook.exe /safe</div></div>
-<div class="st" data-step="3" onclick="toggleStep(this)"><div class="chk"></div><div>Disable PDF preview: Trust Center - Attachment Handling</div></div>
-<div class="st" data-step="4" onclick="toggleStep(this)"><div class="chk"></div><div>Office Repair: Settings - Apps - Office - Quick Repair</div></div>
 </div>
 </div>
 
