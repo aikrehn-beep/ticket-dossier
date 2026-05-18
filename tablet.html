@@ -416,13 +416,33 @@ document.querySelectorAll('.st.done').forEach(function(step){
 attemptedSteps.push(step.querySelector('div:last-child').innerText);
 });
 var query='Outlook crashing large attachments Windows 11 after update';
+var responseHTML='';
 if(attemptedSteps.length>0){
 query+='. Already tried: '+attemptedSteps.join(', ');
+responseHTML+='<div style="color:#34d399;font-size:.85rem;margin-bottom:10px">✓ Taking into account '+attemptedSteps.length+' completed step(s)</div>';
 }
-// Show AI suggestion panel with sample response (in real app, this would come from API)
+// Generate contextual response based on attempted steps
+var suggestion='';
+if(attemptedSteps.some(s=>s.includes('Safe Mode'))){
+if(attemptedSteps.some(s=>s.includes('Office Repair'))){
+// Both safe mode and repair tried
+suggestion='<strong>Next Steps:</strong><br>Since Safe Mode and Office Repair didn\'t resolve:<br>1. Run SCANPST.EXE to repair corrupted .pst/.ost files<br>2. Create new Outlook profile (Control Panel > Mail > Profiles)<br>3. Check Event Viewer for specific crash logs<br><br><strong>Root Cause:</strong> Likely corrupted mailbox data or profile from Windows update.';
+}else{
+// Safe mode tried but not repair
+suggestion='<strong>Next Steps:</strong><br>Safe Mode worked - confirms add-ins not the issue:<br>1. Run Office Quick Repair (Settings > Apps > Office > Modify)<br>2. If that fails, try Online Repair<br>3. Check for corrupted .pst/.ost files with SCANPST.EXE';
+}
+}else if(attemptedSteps.some(s=>s.includes('Office Repair'))){
+// Repair tried but not safe mode
+suggestion='<strong>Next Steps:</strong><br>Since Office Repair didn\'t resolve:<br>1. Run Safe Mode (outlook.exe /safe) to test if add-ins are causing crashes<br>2. Disable all add-ins then re-enable one by one<br>3. Check Event Viewer for crash details';
+}else{
+// Nothing tried yet
+suggestion='<strong>Suggested Fix:</strong><br>1. Run Office Quick Repair (Settings > Apps > Office > Modify > Quick Repair)<br>2. If that fails, try Online Repair<br>3. Check for corrupted .pst/.ost files with SCANPST.EXE<br><br><strong>Root Cause:</strong> Likely corrupted Office cache from recent Windows update.';
+}
+responseHTML+=suggestion;
+// Show AI suggestion panel
 var aiPanel=document.getElementById('aiSuggestion');
 var aiText=document.getElementById('aiText');
-aiText.innerHTML='<strong>Suggested Fix:</strong><br>1. Run Office Quick Repair (Settings > Apps > Office > Modify > Quick Repair)<br>2. If that fails, try Online Repair<br>3. Check for corrupted .pst/.ost files with SCANPST.EXE<br><br><strong>Root Cause:</strong> Likely corrupted Office cache from recent Windows update.';
+aiText.innerHTML=responseHTML;
 aiPanel.style.display='block';
 window.scrollTo(0,document.body.scrollHeight);
 }
