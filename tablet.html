@@ -199,6 +199,10 @@ html,body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#
 <div class="st" data-step="3" onclick="toggleStep(this)"><div class="chk"></div><div>Disable PDF preview: Trust Center - Attachment Handling</div></div>
 <div class="st" data-step="4" onclick="toggleStep(this)"><div class="chk"></div><div>Office Repair: Settings - Apps - Office - Quick Repair</div></div>
 </div>
+<div id="aiSteps" style="display:none;margin-top:12px;border-top:1px solid #334155;padding-top:12px">
+<div style="color:#60a5fa;font-size:.85rem;font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">🤖 Suggested by AI</div>
+<div id="aiStepsList"></div>
+</div>
 </div>
 
 <!-- Search Google AI -->
@@ -439,6 +443,17 @@ suggestion='<strong>Next Steps:</strong><br>Since Office Repair didn\'t resolve:
 suggestion='<strong>Suggested Fix:</strong><br>1. Run Office Quick Repair (Settings > Apps > Office > Modify > Quick Repair)<br>2. If that fails, try Online Repair<br>3. Check for corrupted .pst/.ost files with SCANPST.EXE<br><br><strong>Root Cause:</strong> Likely corrupted Office cache from recent Windows update.';
 }
 responseHTML+=suggestion;
+// Also add AI steps to the Fix Steps section
+var aiStepsDiv=document.getElementById('aiSteps');
+var aiStepsList=document.getElementById('aiStepsList');
+// Extract numbered items from suggestion
+var stepMatches=suggestion.match(/\d+\..*?(?=(?:\d+\.|$))/gs);
+if(stepMatches){
+aiStepsList.innerHTML=stepMatches.map((step,i)=>`
+<div class="st" data-step="ai-${i}" onclick="toggleStep(this)"><div class="chk"></div><div style="color:#60a5fa">${step.trim()}</div></div>
+`).join('');
+aiStepsDiv.style.display='block';
+}
 // Show AI suggestion panel
 var aiPanel=document.getElementById('aiSuggestion');
 var aiText=document.getElementById('aiText');
