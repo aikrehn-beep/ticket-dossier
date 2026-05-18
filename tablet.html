@@ -442,8 +442,12 @@ responseHTML+=suggestion;
 // Show AI suggestion panel
 var aiPanel=document.getElementById('aiSuggestion');
 var aiText=document.getElementById('aiText');
-aiText.innerHTML=responseHTML;
+// Add loading effect
 aiPanel.style.display='block';
+aiText.innerHTML='<div style="color:#60a5fa;text-align:center;padding:12px">🔄 Refreshing AI suggestion...</div>';
+setTimeout(function(){
+aiText.innerHTML=responseHTML;
+}, 500);
 window.scrollTo(0,document.body.scrollHeight);
 }
 
