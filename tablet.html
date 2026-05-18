@@ -316,6 +316,12 @@ chk.classList.toggle('checked');
 if(chk.classList.contains('checked')){
 el.classList.add('done');
 addNote('Completed: '+stepText,'step');
+// If this is an AI step, move it to main fix steps
+if(el.parentElement.id==='aiStepsList'){
+var mainSteps=document.getElementById('fixSteps');
+el.querySelector('div:last-child').style.color=''; // Remove AI color
+mainSteps.appendChild(el);
+}
 }else{
 el.classList.remove('done');
 const noteIndex=notes.findIndex(n=>n.type==='step'&&n.text==='Completed: '+stepText);
